@@ -1,0 +1,8 @@
+torch
+evaluate
+seqeval
+nlpertools
+transformers
+pandas
+datasets
+numpy
