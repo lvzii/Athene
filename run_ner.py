@@ -10,9 +10,8 @@ import os
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "6"
 
-id2label = ["O", "B-entity1", "I-entity1", "B-entity2", "I-entity2",  "B-null", "I-null"]
+id2label = ["O", "B-entity1", "I-entity1", "B-entity2", "I-entity2", "B-null", "I-null"]
 label2id = {i: idx for idx, i in enumerate(id2label)}
-
 
 
 def main(pt_path):
@@ -91,9 +90,9 @@ def main(pt_path):
         tokenized_inputs["labels"] = labels
         return tokenized_inputs
 
-    df = pd.DataFrame(nlpertools.load_from_jsonl(r"./train.json"))
+    df = pd.DataFrame(nlpertools.load_from_jsonl(r"./data/train.json"))
     nong_train = Dataset.from_pandas(df)
-    df = pd.DataFrame(nlpertools.load_from_jsonl(r"./test.json"))
+    df = pd.DataFrame(nlpertools.load_from_jsonl(r"./data/test.json"))
     nong_test = Dataset.from_pandas(df)
 
     nong = DatasetDict()
@@ -108,8 +107,7 @@ def main(pt_path):
     seqeval = evaluate.load("seqeval")
 
     model = AutoModelForTokenClassification.from_pretrained(
-        pt_path, num_labels=len(id2label), id2label=id2label,
-        label2id=label2id
+        pt_path, num_labels=len(id2label), id2label=id2label, label2id=label2id
     )
 
     training_args = TrainingArguments(
@@ -137,8 +135,7 @@ def main(pt_path):
     trainer.train()
 
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     # pt_paths = ["../pretrained_model/bert-base-chinese", "SIKU-BERT/sikuroberta", "SIKU-BERT/sikubert"]
     # pt_path = "SIKU-BERT/sikuroberta"
     pt_path = "SIKU-BERT/sikubert"

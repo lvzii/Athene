@@ -1,10 +1,15 @@
 # NER
-
+```python
 pip install requirements.txt
 python run.py
+```
 
 
+```python
+# 还没做好
+athene train ner.yaml
 
+```
 
 --------------------------------------以下废弃-------------------------------
 # 当前版本
